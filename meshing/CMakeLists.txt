@@ -41,6 +41,30 @@ set_target_properties(vc_meshing PROPERTIES
     EXPORT_NAME meshing
 )
 
+## Python bindings ##
+if(VC_BUILD_PYTHON_BINDINGS)
+    set(python_srcs
+	python/PyMeshing.cpp
+        python/PyOrderedPointSetMesher.cpp
+    )
+
+    # This sets the module name in Python and must match the name in PyCore.cpp
+    message("ADD PYBIND 11 modules ${python_srcs}")
+    pybind11_add_module(meshing ${python_srcs})
+    target_link_libraries(meshing
+        PRIVATE
+            VC::meshing
+            VC::python
+    )
+    set_target_properties(meshing PROPERTIES
+        LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/python/volcart"
+    )
+    message("Set output to ${CMAKE_BINARY_DIR}/python/volcart")
+
+    set(PYBIND_TARGETS ${PYBIND_TARGETS} core PARENT_SCOPE)
+endif(VC_BUILD_PYTHON_BINDINGS)
+
+
 if(VC_INSTALL_LIBS)
 install(
     TARGETS vc_meshing

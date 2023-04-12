@@ -98,6 +98,8 @@ if(VC_BUILD_DOCS)
 endif()
 
 if(VC_BUILD_PYTHON_BINDINGS)
+    message("Building python bindings")
+    find_package(pybind11 REQUIRED)
     add_subdirectory(python)
 endif()
 

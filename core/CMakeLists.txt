@@ -117,20 +117,24 @@ if(VC_BUILD_PYTHON_BINDINGS)
         python/PyReslice.cpp
         python/PyVolume.cpp
         python/PyVolumePkg.cpp
+	python/PyMeshIO.cpp
+	python/PyPointSetIO.cpp
     )
 
     # This sets the module name in Python and must match the name in PyCore.cpp
-    pybind11_add_module(Core ${python_srcs})
-    target_link_libraries(Core
+    message("ADD PYBIND 11 modules ${python_srcs}")
+    pybind11_add_module(core ${python_srcs})
+    target_link_libraries(core
         PRIVATE
             VC::core
             VC::python
     )
-    set_target_properties(Core PROPERTIES
+    set_target_properties(core PROPERTIES
         LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/python/volcart"
     )
+    message("Set output to ${CMAKE_BINARY_DIR}/python/volcart")
 
-    set(PYBIND_TARGETS ${PYBIND_TARGETS} Core PARENT_SCOPE)
+    set(PYBIND_TARGETS ${PYBIND_TARGETS} core PARENT_SCOPE)
 endif(VC_BUILD_PYTHON_BINDINGS)
 
 ## Install targets ##
